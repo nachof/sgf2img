@@ -5,6 +5,7 @@ include Sgf2Img
 describe 'Sgf' do
   before do
     @basic_sgf = '(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]RU[Japanese]SZ[19]KM[0.00]PW[White]PB[Black];B[dd])'
+    @two_moves = "(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]\nRU[Japanese]SZ[19]KM[0.00]\nPW[White]PB[Black]\n;B[dd]\n;W[cc])"
   end
 
   it "should load a correct sized board" do
@@ -18,6 +19,21 @@ describe 'Sgf' do
       (0..18).each do |j|
         if i == 3 && j == 3
           sgf.board[i][j].should == 'B'
+        else
+          sgf.board[i][j].should be_nil
+        end
+      end
+    end
+  end
+
+  it "should load two stones" do
+    sgf = Sgf.new(@two_moves)
+    (0..18).each do |i|
+      (0..18).each do |j|
+        if i == 3 && j == 3
+          sgf.board[i][j].should == 'B'
+        elsif i == 2 && j == 2
+          sgf.board[i][j].should == 'W'
         else
           sgf.board[i][j].should be_nil
         end

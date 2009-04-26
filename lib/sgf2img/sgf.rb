@@ -13,7 +13,7 @@ module Sgf2Img
       sgfstring = sgfstring.chop if sgfstring[sgfstring.length - 1, 1] == ')'
       parts = sgfstring.split ';'
       parse_params parts[1]
-      parse_moves parts[2]
+      parse_moves parts[2, parts.length - 2].join('')
     end
 
     def parse_params paramsstring
