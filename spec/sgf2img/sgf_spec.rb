@@ -12,5 +12,16 @@ describe 'Sgf' do
     sgf.size.should == 19
   end
 
-  it "should load the right stone"
+  it "should load the right stone" do
+    sgf = Sgf.new(@basic_sgf)
+    (0..18).each do |i|
+      (0..18).each do |j|
+        if i == 3 && j == 3
+          sgf.board[i][j].should == 'B'
+        else
+          sgf.board[i][j].should be_nil
+        end
+      end
+    end
+  end
 end
