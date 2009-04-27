@@ -40,4 +40,22 @@ describe 'Sgf' do
       end
     end
   end
+
+  describe "reading an SGF string with set stones at the beginning" do
+    before do
+      @sgfstring = '(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]RU[Japanese]SZ[9]KM[0.00]PW[White]PB[Black]AW[da][ab][bb][cb][db]AB[eb][gb][ac][bc][cc][dc][ec])'
+      @sgf = Sgf.new @sgfstring
+    end
+
+    it "should load the size correctly" do
+      @sgf.size.should == 9
+    end
+    it "should have stones in the correct places" do
+      @sgf.board[1][1].should == 'W'
+      @sgf.board[2][2].should == 'B'
+    end
+    it "should not have stones in incorrect places" do
+      @sgf.board[0][0].should be_nil
+    end
+  end
 end

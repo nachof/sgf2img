@@ -17,36 +17,55 @@ module Sgf2Img
     end
 
     def parse_params paramsstring
-      parse_sgf_commands(paramsstring).each do |p|
-        @size = p[:v].to_i if p[:n] == 'SZ'
+      whitestones = []
+      blackstones = []
+      parse_sgf_commands(paramsstring).each do |p,v|
+        case p
+         when 'SZ'
+           @size = v[0].to_i
+         when 'AW'
+           whitestones = v
+         when 'AB'
+           blackstones = v
+        end
       end
+      whitestones.each { |pos| set_board_position pos, 'W' }
+      blackstones.each { |pos| set_board_position pos, 'B' }
+    end
+
+    def init_board
+      @board = []
+      (0..(@size-1)).each { |i| @board[i] = [] }
     end
 
     def parse_moves moves_string
-      @board = []
-      (0..(@size-1)).each { |i| @board[i] = [] }
-      parse_sgf_commands(moves_string).each do |m|
-        set_board_position(m[:v], m[:n])
+      parse_sgf_commands(moves_string).each do |color,position|
+        set_board_position(position[0], color)
       end
     end
 
     def set_board_position pos, color
       x = pos.downcase[0] - 'a'[0]
       y = pos.downcase[1] - 'a'[0]
+      init_board if @board.nil?
       @board[x][y] = color
     end
 
     def parse_sgf_commands commands_string
-      paramRE = /([A-Z]+)\[([^\]]+)\]/
-      result = []
+      paramRE = /([A-Z]+)((\[[^\]]+\])+)/
+      result = {}
       while match = paramRE.match(commands_string)
         m = match.to_s
         commands_string = commands_string[m.length, commands_string.length].strip
         n = match.captures[0]
-        v = match.captures[1]
-        result << { :n => n, :v => v }
+        v = parse_values match.captures[1]
+        result[n] = v
       end
       result
+    end
+
+    def parse_values string
+      string[1, string.length - 2].split ']['
     end
   end
 end
