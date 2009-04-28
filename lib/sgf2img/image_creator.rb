@@ -20,30 +20,22 @@ module Sgf2Img
 
   private
     def empty_for i, j
-      if j == 0
-        if i == 0
-          return 'topleft.gif '
-        elsif i == @sgf.size - 1
-          return 'bottomleft.gif '
-        else
-          return 'left.gif '
-        end
-      elsif j == @sgf.size - 1
-        if i == 0
-          return 'topright.gif '
-        elsif i == @sgf.size - 1
-          return 'bottomright.gif '
-        else
-          return 'right.gif '
-        end
-      else
-        if i == 0
-          return 'top.gif '
-        elsif i == @sgf.size - 1
-          return 'bottom.gif '
-        else
-          return 'empty.gif '
-        end
+      "#{vertical i}_#{horizontal j}.gif "
+    end
+
+    def vertical i
+      case i
+        when 0 then 'top'
+        when @sgf.size - 1 then 'bottom'
+        else 'center'
+      end
+    end
+
+    def horizontal i
+      case i
+        when 0 then 'left'
+        when @sgf.size - 1 then 'right'
+        else 'center'
       end
     end
   end
