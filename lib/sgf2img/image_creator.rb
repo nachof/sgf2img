@@ -1,18 +1,21 @@
 module Sgf2Img
   class ImageCreator
-    def initialize sgf
+    DEFAULT_RESOURCE_DIR = File.dirname(__FILE__)
+
+    def initialize sgf, resource_dir = DEFAULT_RESOURCE_DIR
       @sgf = sgf
+      @resource_dir = resource_dir
     end
 
-    def command output_file='output.gif'
+    def command output_file = 'output.gif'
       c = "montage "
       (0..(@sgf.size-1)).each do |i|
         (0..(@sgf.size-1)).each do |j|
           c += case @sgf.board[i][j]
-                 when 'B' then 'black.gif '
-                 when 'W' then 'white.gif '
+                 when 'B' then "#{@resource_dir}/black.gif"
+                 when 'W' then "#{@resource_dir}/white.gif"
                  else empty_for i, j
-               end
+               end + ' '
         end
       end
       c += "-tile #{@sgf.size}x#{@sgf.size} -geometry +0+0 #{output_file}"
@@ -20,7 +23,7 @@ module Sgf2Img
 
   private
     def empty_for i, j
-      "#{vertical i}_#{horizontal j}.gif "
+      "#{@resource_dir}/#{vertical i}_#{horizontal j}.gif"
     end
 
     def vertical i
