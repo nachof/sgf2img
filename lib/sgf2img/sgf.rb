@@ -29,6 +29,7 @@ module Sgf2Img
            blackstones = v
         end
       end
+      init_board
       whitestones.each { |pos| set_board_position pos, 'W' }
       blackstones.each { |pos| set_board_position pos, 'B' }
     end

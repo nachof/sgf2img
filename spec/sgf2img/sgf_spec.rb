@@ -4,6 +4,7 @@ include Sgf2Img
 
 describe 'Sgf' do
   before do
+    @empty = '(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]RU[Japanese]SZ[19]KM[0.00]PW[White]PB[Black])'
     @basic_sgf = '(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]RU[Japanese]SZ[19]KM[0.00]PW[White]PB[Black];B[dd])'
     @two_moves = "(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]\nRU[Japanese]SZ[19]KM[0.00]\nPW[White]PB[Black]\n;B[dd]\n;W[cc])"
   end
@@ -11,6 +12,16 @@ describe 'Sgf' do
   it "should load a correct sized board" do
     sgf = Sgf.new(@basic_sgf)
     sgf.size.should == 19
+  end
+
+  it "should load an empty board" do
+    sgf = Sgf.new(@empty)
+    sgf.size.should == 19
+    (0..18).each do |i|
+      (0..18).each do |j|
+        sgf.board[i][j].should be_nil
+      end
+    end
   end
 
   it "should load the right stone" do
