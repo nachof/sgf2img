@@ -69,4 +69,17 @@ describe 'Sgf' do
       @sgf.board[0][0].should be_nil
     end
   end
+
+  describe "reading a real tsumego" do
+    before do
+      @example1 = "(;GM[1]FF[4]AP[qGo:1.5.2]ST[1]\nSZ[19]HA[0]KM[5.5]PW[White]PB[Black]\n\n;B[ad];W[ac];B[bd];W[bc];B[cd];W[cc];B[dc];W[db];B[ec];W[jc]\n;B[fc]C[juega negro y mata, la piedra blanca en K17 esta!]\n)"
+    end
+
+    it "should read the sgf correctly" do
+      sgf = Sgf.new @example1
+      sgf.size.should == 19
+      sgf.board[0][3].should == 'B'
+      sgf.board[0][2].should == 'W'
+    end
+  end
 end
