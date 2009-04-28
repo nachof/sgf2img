@@ -43,13 +43,13 @@ module Sgf2Img
       parse_sgf_commands(moves_string).each do |p|
         color = p[:n]
         position = p[:v][0]
-        set_board_position(position, color)
+        set_board_position(position, color) if color == 'B' || color == 'W'
       end
     end
 
     def set_board_position pos, color
-      x = pos.downcase[0] - 'a'[0]
-      y = pos.downcase[1] - 'a'[0]
+      x = pos.downcase[1] - 'a'[0]
+      y = pos.downcase[0] - 'a'[0]
       init_board if @board.nil?
       @board[x][y] = color
     end

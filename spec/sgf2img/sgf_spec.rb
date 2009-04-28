@@ -78,8 +78,8 @@ describe 'Sgf' do
     it "should read the sgf correctly" do
       sgf = Sgf.new @example1
       sgf.size.should == 19
-      sgf.board[0][3].should == 'B'
-      sgf.board[0][2].should == 'W'
+      sgf.board[3][0].should == 'B'
+      sgf.board[2][0].should == 'W'
     end
   end
 end
