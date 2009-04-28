@@ -1,0 +1,17 @@
+#!/usr/bin/ruby
+
+require File.join(File.dirname(__FILE__), '..', 'lib', 'sgf2img')
+
+def usage
+  "Usage:\n\tsgf2img input.sgf output.{gif,jpg,png}"
+end
+
+if ARGV.size != 2
+  puts usage
+else
+  include Sgf2Img
+  open(ARGV[0]) do |f|
+    system(ImageCreator.new(Sgf.new f.read).command(ARGV[1]))
+  end
+end
+
