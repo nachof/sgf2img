@@ -8,7 +8,11 @@ module Sgf2Img
       c = "montage "
       (0..(@sgf.size-1)).each do |i|
         (0..(@sgf.size-1)).each do |j|
-          c += empty_for i, j
+          c += case @sgf.board[i][j]
+                 when 'B' then 'black.gif '
+                 when 'W' then 'white.gif '
+                 else empty_for i, j
+               end
         end
       end
       c += "-tile #{@sgf.size}x#{@sgf.size} -geometry +0+0 #{output_file}"
