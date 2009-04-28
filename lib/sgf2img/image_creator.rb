@@ -4,7 +4,7 @@ module Sgf2Img
       @sgf = sgf
     end
 
-    def command output_file
+    def command output_file='output.gif'
       c = "montage "
       (0..(@sgf.size-1)).each do |i|
         (0..(@sgf.size-1)).each do |j|
