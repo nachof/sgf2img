@@ -18,7 +18,7 @@ module Sgf2Img
                end + ' '
         end
       end
-      c += "-tile #{@sgf.size}x#{@sgf.size} -geometry +0+0 #{output_file}"
+      c += "-tile #{@sgf.size}x#{@sgf.size} -geometry +0+0 -background '#f2b06d' #{output_file}"
     end
 
   private
